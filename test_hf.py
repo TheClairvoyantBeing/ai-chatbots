@@ -36,6 +36,8 @@ async def list_models():
         "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO"
     ]
     
+    print("--- Starting my HuggingFace Diagnostic Test ---")
+    
     # I iterate through each model to see which one works
     for m in models:
         try:
@@ -47,12 +49,14 @@ async def list_models():
                 messages=[{'role': 'user', 'content': 'hi'}], 
                 max_tokens=10
             )
-            # If the request succeeds, I print the success message and stop looking
-            print(f"  -> SUCCESS! Found working free-tier model: {m}")
+            # If my request succeeds, I print the success message and stop looking
+            print(f"  -> SUCCESS! I found a working free-tier model: {m}")
             return
         except Exception as e:
             # If the model is not supported or errors out, I catch it and try the next one
             print(f"  -> FAILED: {e}")
+            
+    print("\n[I could not find any working models in my current list!]")
 
 # I run my async diagnostic test
 if __name__ == "__main__":

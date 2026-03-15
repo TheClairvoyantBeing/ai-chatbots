@@ -1,3 +1,20 @@
+# Environment variables (Sensitive Data)
 .env
+
+# Virtual Environment
 venv/
+ENV/
+env/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE / System files
+.vscode/
+.idea/
+.DS_Store
+
+# Local AI Panel (Private)
 ai-panel/

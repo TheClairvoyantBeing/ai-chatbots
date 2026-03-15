@@ -1,4 +1,5 @@
 #=============================================
+# My HuggingFace Chatbot
 # Use : pip install huggingface_hub python-dotenv
 #=============================================
 
@@ -7,6 +8,7 @@ import asyncio
 from huggingface_hub import AsyncInferenceClient
 from dotenv import load_dotenv
 
+# I load my environment variables
 load_dotenv()
 
 # I initialize my HuggingFace Async Client here
@@ -14,34 +16,36 @@ load_dotenv()
 client = AsyncInferenceClient(token=os.environ.get("HF_API_KEY"))
 
 async def main():
-    print("HuggingFace Chatbot started! Type 'quit' to exit.")
+    print("--- My HuggingFace Chatbot (Qwen/Qwen2.5-72B) ---")
+    print("Type 'quit' to exit.")
     
     # I maintain my conversation history manually across the chat
     messages = [
-        {"role": "system", "content": "You are a helpful AI assistant powered by HuggingFace."}
+        {"role": "system", "content": "You are a helpful AI assistant powered by HuggingFace Hub."}
     ]
 
     while True:
         try:
-            user_input = input("\nPrompt ('quit' to exit): ")
+            # I take my user input
+            user_input = input("\nMe: ").strip()
             
-            if user_input.strip().lower() == 'quit':
-                print("Goodbye!")
+            if user_input.lower() == 'quit':
+                print("Shutting down my HuggingFace bot. Goodbye!")
                 break
                 
-            if not user_input.strip():
+            if not user_input:
                 continue
 
-            # I append my message to the history
+            # I append my message to my history
             messages.append({"role": "user", "content": user_input})
             
             print("\nHuggingFace: ", end="", flush=True)
             bot_reply = ""
             
             # I request a chat completion from an open-weight model on the Hub
-            # I can change this to any model ID on huggingface.co that supports Chat Completions!
+            # I am using Qwen2.5-72B which is a massive state-of-the-art model
             response_stream = await client.chat_completion(
-                model="Qwen/Qwen2.5-72B-Instruct", # Massive state-of-the-art model fully supported on the free tier
+                model="Qwen/Qwen2.5-72B-Instruct",
                 messages=messages,
                 max_tokens=2048,
                 stream=True,
@@ -54,13 +58,14 @@ async def main():
                     print(content, end="", flush=True)
                     bot_reply += content
                     
-            print() # Print a final newline when my stream is done
+            print() 
             
             # I add the model's response back to my history
             messages.append({"role": "assistant", "content": bot_reply})
             
         except Exception as e:
-            print(f"\nAPI Error: {e}")
+            print(f"\n[API Error]: {e}")
 
 if __name__ == "__main__":
+    # I use clean async execution for my main loop
     asyncio.run(main())
