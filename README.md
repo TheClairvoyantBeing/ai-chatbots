@@ -2,7 +2,7 @@
 
 Welcome to my personal AI Chatbots collection! This project serves as a centralized hub where I have built locally-executable, highly-responsive terminals capable of hooking into some of the most powerful and state-of-the-art Large Language Models (LLMs) available. 
 
-By utilizing various APIs across multiple providers (like Google's Gemini, HuggingFace, OpenAI, Cohere, Groq, and NVIDIA Nemotron), I can run my own console chatbots anytime, easily bypassing clunky web interfaces and heavily restricted third-party apps. 
+By utilizing various APIs across multiple providers (like Google's Gemini, HuggingFace, OpenAI, Cohere, Groq, NVIDIA Nemotron, and Ollama), I can run my own console chatbots anytime, easily bypassing clunky web interfaces and heavily restricted third-party apps. 
 
 ---
 
@@ -41,6 +41,7 @@ To run these chatbots locally, you'll need to set up your Python environment and
    ```bash
    python .\bot-collections\gemini.py
    ```
+   *Note: [OpenAI](./bot-collections/openAI.py) requires an account with paid credits to run successfully.*
 
 ---
 
@@ -62,7 +63,10 @@ Certain models (like Gemini) support multimodal inputs (images). Instead of writ
 * In my `gemini.py` script, if I type a path ending in `.png` or `.jpg`, I intercept it and do `Image.open(path)`.
 * I can pass that raw `PIL.Image` object directly into the `content` array sent to the Google GenAI API, and the SDK automatically handles the processing and uploading!
 
-### 4. Dynamic Diagnostic Scripts
+### 4. Local LLM Hosting (Ollama)
+I've integrated [Ollama](./bot-collections/ollama-local-llama2.py) to run models entirely on my own hardware. This ensures complete privacy and zero API costs for supported models like Llama 3.1. 
+
+### 5. Dynamic Diagnostic Scripts
 Because platforms like HuggingFace continually rotate their Serverless API endpoints, I wrote [`test_hf.py`](./test_hf.py) to automatically test a curated array of powerful models against my API key. It quickly pings the APIs and prints out a dynamically found working model that I can slot back into my terminal code.
 
 ---
@@ -96,6 +100,10 @@ This is a really cool implementation that hits the NVIDIA NIM compute fabric. Ut
 ![NVIDIA Nemotron Reasoning](./Images/nvidia-nemotron-1.png)
 * **NVIDIA Showcase 2:** Advanced reasoning streams.
 ![NVIDIA Nemotron Stream](./Images/nvidia-nemotron-2.png.png)
+
+### [6. Local Ollama Chatbot](./bot-collections/ollama-local-llama2.py)
+My local Ollama setup allows me to run state-of-the-art models like Llama 3.1 directly on my machine with zero latency from external servers.
+![Ollama Local Chatbot](./Images/ollama-local-llama.png)
 
 ---
 *Created and maintained from a first-person perspective to explore the boundaries of API integration!*

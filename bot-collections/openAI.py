@@ -1,5 +1,7 @@
 #=======================================
 # Use : pip install openai python-dotenv
+# To run this: python bot-collections/openAI.py
+# NOTE: I cannot execute this script currently because my OpenAI account requires paid credits.
 #======================================
 
 import os
