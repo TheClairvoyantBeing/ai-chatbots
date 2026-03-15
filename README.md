@@ -12,7 +12,6 @@ By design, this project bypasses web-based UI limitations, allowing me to intera
 *   **Asynchronous Architecture:** Every script I wrote utilizes Python's `asyncio` loop to handle non-blocking real-time text streaming.
 *   **Multimodal Capabilities:** My Gemini implementation handles native image analysis using PIL (Pillow).
 *   **Recursive Reasoning:** My NVIDIA Nemotron bot is configured to expose the model's internal "thinking" traces.
-*   **Private Deliberation:** I built an **AI Higher Council** that runs a 3-stage formal debate behind the scenes before presenting a consensus.
 
 ---
 
@@ -50,38 +49,33 @@ python .\bot-collections\gemini.py
 
 ---
 
-## 🏛️ The AI Higher Council
-This is my flagship implementation located in the `ai-panel/` directory (excluded from Git for privacy). It simulates a high-level dialectical debate between Gemini, Cohere, Groq, and Ollama.
-
-**How I built the logic:**
-1.  **Stage 1:** Independent opening remarks (Silent).
-2.  **Stage 2:** Cross-critique & logical verification (Silent).
-3.  **Stage 3:** Final synthesized 5-bullet summary (Public).
-
----
-
 ## 📸 Technical Showcase
 
 I've documented my progress with live terminal captures:
 
 #### [Cohere V2 Interface](./bot-collections/cohere_bot.py)
 I use the Command-R model for its incredible markdown formatting and accuracy.
+
 ![Cohere Showcase](./Images/cohere-1.png)
 
 #### [Gemini Vision Interface](./bot-collections/gemini.py)
 My Gemini bot can "see" local files. I pass raw images directly into the API stream.
+
 ![Gemini Showcase](./Images/Gemini--2.png)
 
 #### [Groq Speed Inferences](./bot-collections/groq_bot.py)
 Utilizing Groq's LPU hardware, I can generate tokens at near-instant speeds.
+
 ![Groq Showcase](./Images/Groq-1.png)
 
 #### [NVIDIA Reasoning Traces](./bot-collections/nvidia-nemotron.py)
 I've enabled "Thinking" mode here, showing the model's logic in grey text before the answer.
+
 ![NVIDIA Showcase](./Images/nvidia-nemotron-1.png)
 
 #### [Local Ollama (Offline)](./bot-collections/ollama-local-llama2.py)
 For total privacy, I run Llama 3.1 entirely on my own hardware using Ollama.
+
 ![Ollama Showcase](./Images/ollama-local-llama.png)
 
 ---
