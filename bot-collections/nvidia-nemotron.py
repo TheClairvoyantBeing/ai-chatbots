@@ -1,7 +1,9 @@
-#=============================================
-# My NVIDIA Nemotron Chatbot
-# Use : pip install openai python-dotenv
-#=============================================
+#=========================================================================================
+# My NVIDIA Nemotron Reasoning-Terminal
+# 
+# I use this to interact with NVIDIA's NIM API. This model is unique because it 
+# displays its "Thinking" process (reasoning) before giving its final answer.
+#=========================================================================================
 
 import os
 import asyncio
@@ -18,34 +20,34 @@ client = AsyncOpenAI(
 )
 
 async def main():
-    print("--- My NVIDIA Nemotron Chatbot (Reasoning Enabled) ---")
-    print("Type 'quit' to exit.")
+    print("--- My NVIDIA Nemotron Terminal (Thinking Mode Enabled) ---")
+    print("I can type 'quit' to exit.")
     
-    # I maintain my conversation history manually
+    # I maintain my conversation history manually to keep the context coherent
     messages = [
         {"role": "system", "content": "You are a helpful AI assistant powered by NVIDIA Nemotron."}
     ]
 
     while True:
         try:
-            # I take my user input
+            # I wait for my input
             user_input = input("\nMe: ").strip()
             
             if user_input.lower() == 'quit':
-                print("Shutting down my NVIDIA bot. Goodbye!")
+                print("Closing my NVIDIA terminal. Goodbye!")
                 break
                 
             if not user_input:
                 continue
 
-            # I append my message to the history
+            # I add my message to our ongoing session history
             messages.append({"role": "user", "content": user_input})
             
             print("\nNemotron: ", end="", flush=True)
             bot_reply = ""
             
-            # I request a response with internal reasoning traces enabled
-            # Note: I am providing a 'reasoning_budget' so the model can "think" before it speaks
+            # I request a response with internal reasoning traces enabled.
+            # I've given it a 'reasoning_budget' so it has plenty of room to think!
             response_stream = await client.chat.completions.create(
                 model="nvidia/nemotron-3-nano-30b-a3b",
                 messages=messages,
@@ -67,10 +69,10 @@ async def main():
                 # I extract the model's internal thinking process (reasoning)
                 reasoning = getattr(chunk.choices[0].delta, "reasoning_content", None)
                 if reasoning:
-                    # I print my reasoning in a grey color to distinguish it from the final answer
+                    # I print the reasoning in grey color so it's clearly separate from the answer
                     print(f"\033[90m{reasoning}\033[0m", end="", flush=True)
                 
-                # I extract my actual response content
+                # I extract the actual response content
                 content = chunk.choices[0].delta.content
                 if content is not None:
                     print(content, end="", flush=True)
@@ -78,12 +80,17 @@ async def main():
                     
             print() 
             
-            # I add the model's response back to my history
+            # I save the response back into our history for context
             messages.append({"role": "assistant", "content": bot_reply})
             
         except Exception as e:
-            print(f"\n[API Error]: {e}")
+            # I catch API errors or connectivity issues here
+            print(f"\n[Note from NVIDIA NIM]: {e}")
+            break
 
 if __name__ == "__main__":
-    # I use clean async execution
-    asyncio.run(main())
+    # I start the async main loop
+    try:
+        asyncio.run(main())
+    except Exception as e:
+        print(f"My NVIDIA terminal crashed with a fatal error: {e}")
