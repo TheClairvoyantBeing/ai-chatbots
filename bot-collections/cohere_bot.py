@@ -1,76 +1,38 @@
-#=========================================================================================
-# My Cohere Intelligent Terminal
-# 
-# I use this to interact with Cohere's Command-A models. I'm using their V2 API 
-# for superior reasoning and coherent text generation.
-#=========================================================================================
-
-import os
-import asyncio
-import cohere
+import os, asyncio, cohere
 from dotenv import load_dotenv
 
-# I load my environment variables
+# I load my environment and set up my async client
 load_dotenv()
-
-# I initialize my async Cohere client using the key from my .env
-co = cohere.AsyncClientV2(api_key=os.environ.get("COHERE_API_KEY"))
+co = cohere.AsyncClientV2(api_key=os.getenv("COHERE_API_KEY"))
 
 async def main():
-    print("--- My Cohere Terminal (command-a-03-2025) ---")
-    print("I can type 'quit' to exit.")
-    
-    # I maintain my conversation history manually so the model stays on track
-    messages = [
-        {"role": "system", "content": "You are a helpful AI assistant powered by Cohere."}
-    ]
+    print("--- Cohere Terminal (Command A) ---")
+    messages = [{"role": "system", "content": "You are a helpful assistant."}]
 
     while True:
         try:
-            # I wait for my input
+            # I wait for my input and break if quit
             user_input = input("\nMe: ").strip()
-            
-            if user_input.lower() == 'quit':
-                print("Closing my Cohere terminal. Goodbye!")
-                break
-                
-            if not user_input:
-                continue
+            if user_input.lower() == 'quit': break
+            if not user_input: continue
 
-            # I add my message to the ongoing session history
             messages.append({"role": "user", "content": user_input})
-            
             print("\nCohere: ", end="", flush=True)
             bot_reply = ""
             
-            # I request a chat completion stream from the high-performance Command-A model
-            response_stream = co.chat_stream(
-                model="command-a-03-2025", 
-                messages=messages,
-            )
-            
-            # I wrap my async iteration in a try-block to catch streaming hiccups
-            async for event in response_stream:
+            # I stream responses from the current 2026 stable model: command-a-03-2025
+            async for event in co.chat_stream(model="command-a-03-2025", messages=messages):
                 if event and event.type == "content-delta":
-                    if event.delta and event.delta.message and event.delta.message.content:
-                        content = event.delta.message.content.text
-                        if content:
-                            print(content, end="", flush=True)
-                            bot_reply += content
-                    
-            print() # I add a final newline once my stream finishes
+                    content = event.delta.message.content.text
+                    if content:
+                        print(content, end="", flush=True)
+                        bot_reply += content
             
-            # I record the bot's response in our history for context
+            print()
             messages.append({"role": "assistant", "content": bot_reply})
             
         except Exception as e:
-            # I catch API errors or connectivity issues here
-            print(f"\n[Note from Cohere]: {e}")
-            break
+            print(f"\n[Cohere Error]: {e}"); break
 
 if __name__ == "__main__":
-    # I fire up the main loop with a clean async runner
-    try:
-        asyncio.run(main())
-    except Exception as e:
-        print(f"My Cohere terminal crashed: {e}")
+    asyncio.run(main())
